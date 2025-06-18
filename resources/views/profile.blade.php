@@ -44,11 +44,11 @@
                     <div class="col-xl-4 col-lg-5">
                         <div class="card text-center">
                             <div class="card-body">
-                                <img src="{{ Auth::user()->profile ? asset('storage/' . Auth::user()->profile) : 'assets/images/users/avatar-1.jpg' }}"
+                                <img src="{{ $user->profile ? asset('storage/' . $user->profile) : asset('assets/images/users/avatar-1.jpg') }}"
                                     class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
-                                <h4 class="mb-1 mt-2">{{ Auth::user()->name }}</h4>
-                                <p class="text-muted">{{ Auth::user()->role->role_name }}</p>
+                                <h4 class="mb-1 mt-2">{{ $user->name }}</h4>
+                                <p class="text-muted">{{ $user->role->role_name }}</p>
 
                                 {{-- <button type="button" class="btn btn-success btn-sm mb-2">Follow</button>
                                 <button type="button" class="btn btn-danger btn-sm mb-2">Message</button> --}}
@@ -56,16 +56,16 @@
                                 <div class="text-start mt-3">
                                     <h4 class="fs-13 text-uppercase">About Me :</h4>
                                     <p class="text-muted mb-3">
-                                        {{ Auth::user()->bio }}
+                                        {{ $user->bio }}
                                     </p>
                                     <p class="text-muted mb-2"><strong>Full Name :</strong> <span
-                                            class="ms-2">{{ Auth::user()->name }}</span></p>
+                                            class="ms-2">{{ $user->name }}</span></p>
 
                                     <p class="text-muted mb-2"><strong>Mobile :</strong><span
-                                            class="ms-2">{{ Auth::user()->phone }}</span></p>
+                                            class="ms-2">{{ $user->phone }}</span></p>
 
                                     <p class="text-muted mb-2"><strong>Email :</strong> <span
-                                            class="ms-2 ">{{ Auth::user()->email }}</span></p>
+                                            class="ms-2 ">{{ $user->email }}</span></p>
 
                                 </div>
                             </div> <!-- end card-body -->
@@ -87,7 +87,7 @@
                                 <div class="tab-content">
 
                                     <div class="tab-pane show active" id="settings">
-                                        <form action="/editprofile" method="post" enctype="multipart/form-data">
+                                        <form action="/editprofile/{{$user->id}}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <h5 class="mb-4 text-uppercase"><i class="ri-contacts-book-2-line me-1"></i>
                                                 Personal Info</h5>
@@ -97,7 +97,7 @@
                                                         <label for="firstname" class="form-label">Name</label>
                                                         <input type="text" class="form-control" name="name"
                                                             placeholder="Enter your name"
-                                                            value="{{ Auth::user()->name }}" required>
+                                                            value="{{ $user->name }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -115,7 +115,7 @@
                                                         <label for="userbio" class="form-label">Bio</label>
                                                         <textarea class="form-control" id="userbio" rows="4"
                                                             placeholder="Write something..."
-                                                            name="bio">{{ Auth::user()->bio }}</textarea>
+                                                            name="bio">{{ $user->bio }}</textarea>
                                                     </div>
                                                 </div> <!-- end col -->
                                             </div> <!-- end row -->
@@ -126,7 +126,7 @@
                                                         <label for="useremail" class="form-label">Email</label>
                                                         <input type="email" class="form-control" name="email"
                                                             id="useremail" placeholder="Enter email"
-                                                            value="{{ Auth::user()->email }}">
+                                                            value="{{ $user->email }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -134,7 +134,7 @@
                                                         <label for="userphone" class="form-label">Phone</label>
                                                         <input type="number" class="form-control" name="phone"
                                                             id="userphone" placeholder="Enter phone"
-                                                            value="{{ Auth::user()->phone }}">
+                                                            value="{{ $user->phone }}">
                                                     </div>
                                                 </div> <!-- end col -->
                                             </div> <!-- end row -->
@@ -190,7 +190,7 @@
         @include('layouts.footer')
 
         <!-- Profile Demo App js -->
-        <script src="assets/js/pages/demo.profile.js"></script>
+        <script src="{{ asset('assets/js/pages/demo.profile.js') }}"></script>
         <script>
             function copyApiUrl() {
                 var copyText = document.getElementById("apiUrl");

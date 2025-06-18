@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Page;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -10,23 +11,17 @@ class TeamController extends Controller
 {
     public function index()
     {
-        // $page = Page::where('slug', 'team-management')->first();
-        // $roleIds = $page->roles->pluck('id');
-        // $users = User::whereIn('role_id', [1])->where('role_id' ,'!=', 2)->where('role_id' ,'!=', 1)->with('role')->get();
-
-        // $page = Page::where('slug', 'team-management')->first();
-        // $roleIds = $page->roles->where('company_id', $company_id)->pluck('id');
+        $page = Page::where('slug', 'team-management')->first();
+        $roleIds = $page->roles->pluck('id');
 
         $teamMember = User::with('role')
-            // ->whereNotIn('role_id', $roleIds)
-            // ->where('role_id', '!=', 1)
-            // ->where('role_id', '!=', 2)
+            ->whereNotIn('role_id', $roleIds)
+            ->where('role_id', '!=', 1)
             ->get();
 
-        $users = User::with('role')->get();
+        $users = User::whereIn('role_id', $roleIds)->where('role_id', '!=', 1)->with('role')->get();
 
         $team = Team::all();
-        // $members = User::with(['team', 'role'])->where('is_team_leader',1)->whereNotNull('team_id')->get();
         $members = User::with(['team' => function ($q) {
             $q->withCount('users');
         }, 'role'])->where('is_team_leader', 1)

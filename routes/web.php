@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/team-list', [TeamController::class, 'index']);
     Route::post('/team-list', [TeamController::class, 'createTeam']);
     Route::post('/team-update', [TeamController::class, 'updateTeam']);
-    Route::get('/delete-team/{id}', [TeamController::class, 'deleteTeam']);
+    Route::get('/team-delete/{id}', [TeamController::class, 'deleteTeam']);
 
 
     // user
@@ -46,7 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/permission', [RolewaiseAuthController::class, 'index']);
 
      // profile list
-    Route::post('/editprofile',  [ProfileController::class, 'editprofile']);
+    Route::post('/editprofile/{id}',  [ProfileController::class, 'editprofile']);
     Route::post('/changePassword',  [ProfileController::class, 'changePassword']);
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/{id}', [ProfileController::class, 'userProfile']);
 });

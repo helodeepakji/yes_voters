@@ -17,10 +17,10 @@
 </div>
 <!-- Vendor js -->
 
-<script src="assets/js/vendor.min.js"></script>
-<script src="assets/vendor/select2/js/select2.min.js"></script>
-<script src="assets/js/app.min.js"></script>
-<script src="assets/js/notify.js"></script>
+<script src="{{ asset('assets/js/vendor.min.js')}}"></script>
+<script src="{{ asset('assets/vendor/select2/js/select2.min.js')}}"></script>
+<script src="{{ asset('assets/js/app.min.js')}}"></script>
+<script src="{{ asset('assets/js/notify.js')}}"></script>
 <script>
      var notyf = new Notyf({ position: { x: 'right', y: 'top' } });
 </script>

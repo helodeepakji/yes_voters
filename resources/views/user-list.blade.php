@@ -85,13 +85,17 @@
                                 </tr>
                             </thead>
                             <tbody id="table_body">
+                                @php
+                                    $i = 0;
+                                @endphp
                                 @foreach ($users as $item)
                                     <tr>
-                                        <td>1</td>
+                                        <td>{{++$i}}</td>
                                         <td>
+                                            <a href="/profile/{{$item->id}}" target="_blank">
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <img src="/assets/images/users/avatar-1.jpg" alt="company-logo"
+                                                    <img src="{{ $item->profile ? asset('storage/' . $item->profile) : asset('assets/images/users/avatar-1.jpg') }}" alt="company-logo"
                                                         width="32" class="rounded-circle">
                                                 </div>
                                                 <div class="col-8">
@@ -103,6 +107,7 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            </a>
                                         </td>
                                         <td>{{ucfirst($item->gender)}}</td>
                                         <td>{{$item->email}}</td>

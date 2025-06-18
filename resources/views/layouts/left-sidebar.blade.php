@@ -3,20 +3,20 @@
   <!-- Brand Logo Light -->
   <a href="index.php" class="logo logo-light">
     <span class="logo-lg">
-      <img src="assets/images/logo.png" alt="logo" />
+      <img src="{{ asset('assets/images/logo.png')}}" alt="logo" />
     </span>
     <span class="logo-sm">
-      <img src="assets/images/logo-sm.png" alt="small logo" />
+      <img src="{{ asset('assets/images/logo-sm.png')}}" alt="small logo" />
     </span>
   </a>
 
   <!-- Brand Logo Dark -->
   <a href="index.php" class="logo logo-dark">
     <span class="logo-lg">
-      <img src="assets/images/logo-dark.png" alt="dark logo" />
+      <img src="{{ asset('assets/images/logo-dark.png')}}" alt="dark logo" />
     </span>
     <span class="logo-sm">
-      <img src="assets/images/logo-sm.png" alt="small logo" />
+      <img src="{{ asset('assets/images/logo-sm.png')}}" alt="small logo" />
     </span>
   </a>
 
@@ -150,7 +150,7 @@
       </li>
 
       <li class="side-nav-item">
-        <a href="apps-file-manager.php" class="side-nav-link">
+        <a href="/logout" class="side-nav-link">
           <i class=" ri-arrow-go-back-fill"></i>
           <span> LogOut </span>
         </a>

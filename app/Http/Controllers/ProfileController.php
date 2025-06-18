@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -11,12 +12,19 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return view('profile');
+        $user = Auth::user();
+        return view('profile',compact('user'));
+    }
+    
+    public function userProfile($id)
+    {
+        $user = User::find($id);
+        return view('profile',compact('user'));
     }
 
-    public function editprofile(Request $request)
+    public function editprofile($id,Request $request)
     {
-        $user = Auth::user();
+        $user = User::find($id);
 
         // Validate the request
         $request->validate([
@@ -42,7 +50,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('profile')->with('success', 'Profile Update Successfully.');
+        return back()->with('success','Profile Update Successfully.');
     }
     
     public function changePassword(Request $request)
@@ -58,6 +66,6 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('profile')->with('success', 'Profile Update Successfully.');
+        return back()->with('success', 'Profile Update Successfully.');
     }
 }
