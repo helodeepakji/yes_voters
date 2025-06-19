@@ -79,14 +79,16 @@
                             class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 pe-0  ps-0">
                             <h4 class="header-title">Team List</h4>
                             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-                                <div class="dropdown ms-2">
-                                    <select id="selectedTeam" class="form-select">
-                                        <option value="">Select Team</option>
-                                        @foreach ($team as $item)
-                                            <option value="{{$item->id}}">{{$item->team_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                @if (auth()->user()->authorizedPages->contains('slug', 'create-team') || auth()->user()->role_id == 1)
+                                    <div class="dropdown ms-2">
+                                        <select id="selectedTeam" class="form-select">
+                                            <option value="">Select Team</option>
+                                            @foreach ($team as $item)
+                                                <option value="{{$item->id}}">{{$item->team_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -100,7 +102,9 @@
                                     <th>Phone</th>
                                     <th>Email</th>
                                     <th>Team Size</th>
-                                    <th>Actions</th>
+                                    @if (auth()->user()->authorizedPages->contains('slug', 'team-action') || auth()->user()->role_id == 1)
+                                        <th></th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody id="table_body">
@@ -134,14 +138,16 @@
                                         <td>{{ $item->phone }} </td>
                                         <td>{{ $item->email }}</td>
                                         <td>{{ $item->team->users_count ?? 0 }}</td>
-                                        <td>
-                                            <i class="ri-eye-fill cursor-pointer" data-bs-toggle="modal"
-                                                data-bs-target="#view_team"
-                                                onclick="getTeamDetails({{ $item->team->id}})"></i>
-                                            <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
-                                                data-bs-target="#delete_modal"
-                                                onclick="deleteTeam({{ $item->team->id }})"></i>
-                                        </td>
+                                        @if (auth()->user()->authorizedPages->contains('slug', 'team-action') || auth()->user()->role_id == 1)
+                                            <td>
+                                                <i class="ri-eye-fill cursor-pointer" data-bs-toggle="modal"
+                                                    data-bs-target="#view_team"
+                                                    onclick="getTeamDetails({{ $item->team->id}})"></i>
+                                                <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
+                                                    data-bs-target="#delete_modal"
+                                                    onclick="deleteTeam({{ $item->team->id }})"></i>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

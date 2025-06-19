@@ -58,11 +58,13 @@
                 </nav>
             </div>
             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                <div class="mb-2">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#add_role"
-                        class="btn btn-primary d-flex align-items-center"><i class="ri-add-circle-line mx-1"></i>Add
-                        Role</a>
-                </div>
+                @if (auth()->user()->authorizedPages->contains('slug', 'create-role') || auth()->user()->role_id == 1)
+                    <div class="mb-2">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#add_role"
+                            class="btn btn-primary d-flex align-items-center"><i class="ri-add-circle-line mx-1"></i>Add
+                            Role</a>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -79,7 +81,9 @@
                                     <th>Sno.</th>
                                     <th>Role Name</th>
                                     <th>Total People</th>
-                                    <th></th>
+                                    @if (auth()->user()->authorizedPages->contains('slug', 'role-action') || auth()->user()->role_id == 1)
+                                        <th></th>
+                                    @endif
                                 </tr>
                             </thead>
                             @php
@@ -93,16 +97,21 @@
                                             {{$item->role_name}}
                                         </td>
                                         <td>{{$item->users_count }}</td>
-                                        <td>
+                                        @if (auth()->user()->authorizedPages->contains('slug', 'role-action') || auth()->user()->role_id == 1)
 
-                                            <a href="#edit_role" data-bs-toggle="modal" data-bs-target="#edit_role" onclick="getRole({{$item->id}})">
-                                                <i class="ri-pencil-fill cursor-pointer"></i> </a>
+                                            <td>
 
-                                            <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="getDeleteRole({{$item->id}})">
-                                                <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
-                                                    data-bs-target="#delete_modal"></i>
-                                            </a>
-                                        </td>
+                                                <a href="#edit_role" data-bs-toggle="modal" data-bs-target="#edit_role"
+                                                    onclick="getRole({{$item->id}})">
+                                                    <i class="ri-pencil-fill cursor-pointer"></i> </a>
+
+                                                <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal"
+                                                    onclick="getDeleteRole({{$item->id}})">
+                                                    <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
+                                                        data-bs-target="#delete_modal"></i>
+                                                </a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -233,26 +242,26 @@
 <!-- App js -->
 <script>
 
-    function getDeleteRole(id){
-        $('#btn-role-id').data('role-id',id);
+    function getDeleteRole(id) {
+        $('#btn-role-id').data('role-id', id);
     }
 
 
-    function getRole(id){
+    function getRole(id) {
         $.ajax({
-            url : '/api/getRole/'+id,
-            type : 'GET',
-            dataType : 'json',
-            success : function(response){
+            url: '/api/getRole/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
                 $('#role_name').val(response.role_name);
-                $('#role_id').val(response.id);    
+                $('#role_id').val(response.id);
             }
         });
     }
 
-    function getDelete(){
+    function getDelete() {
         var id = $('#btn-role-id').data('role-id');
-        window.location.href = '/delete-role/'+id;
+        window.location.href = '/delete-role/' + id;
     }
 
 </script>

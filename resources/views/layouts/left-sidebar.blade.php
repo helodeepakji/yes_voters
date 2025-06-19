@@ -71,21 +71,24 @@
           <span> User List </span>
         </a>
       </li>
-      
-      <li class="side-nav-item">
-        <a href="/role-list" class="side-nav-link">
-          <i class=" ri-seo-line"></i>
-          <span> Role List </span>
-        </a>
-      </li>
 
+      @if (auth()->user()->authorizedPages->contains('slug', 'role-list') || auth()->user()->role_id == 1)
       <li class="side-nav-item">
-        <a href="/team-list" class="side-nav-link">
-          <i class="ri-team-line"></i>
-          <span>Team List </span>
-        </a>
+      <a href="/role-list" class="side-nav-link">
+        <i class=" ri-seo-line"></i>
+        <span> Role List </span>
+      </a>
       </li>
+    @endif
 
+      @if (auth()->user()->authorizedPages->contains('slug', 'team-list') || auth()->user()->role_id == 1)
+      <li class="side-nav-item">
+      <a href="/team-list" class="side-nav-link">
+        <i class="ri-team-line"></i>
+        <span>Team List </span>
+      </a>
+      </li>
+    @endif
       <li class="side-nav-title">Surveys</li>
 
       <li class="side-nav-item">
@@ -107,7 +110,7 @@
         </div>
       </li>
 
-       <li class="side-nav-item">
+      <li class="side-nav-item">
         <a href="response-list.php" class="side-nav-link">
           <i class="ri-list-check-3"></i>
           <span> Response List </span>
@@ -135,12 +138,14 @@
 
       <li class="side-nav-title">Settings</li>
 
+      @if (auth()->user()->authorizedPages->contains('slug', 'permission') || auth()->user()->role_id == 1)
       <li class="side-nav-item">
-        <a href="/permission" class="side-nav-link">
-          <i class=" ri-settings-3-line"></i>
-          <span> Permission </span>
-        </a>
+      <a href="/permission" class="side-nav-link">
+        <i class=" ri-settings-3-line"></i>
+        <span> Permission </span>
+      </a>
       </li>
+    @endif
 
       <li class="side-nav-item">
         <a href="/profile" class="side-nav-link">
