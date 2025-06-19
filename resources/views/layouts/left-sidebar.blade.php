@@ -101,17 +101,19 @@
         <div class="collapse" id="sidebarEmail">
           <ul class="side-nav-second-level">
             <li>
-              <a href="apps-email-inbox.php">Surveys List</a>
+              <a href="/surveys-list">Surveys List</a>
             </li>
-            <li>
-              <a href="apps-email-read.php">Surveys Question</a>
-            </li>
+            @if (auth()->user()->authorizedPages->contains('slug', 'survey-question') || auth()->user()->role_id == 1)
+              <li>
+                <a href="/survey-question">Surveys Question</a>
+              </li>
+            @endif
           </ul>
         </div>
       </li>
 
       <li class="side-nav-item">
-        <a href="response-list.php" class="side-nav-link">
+        <a href="/response-list" class="side-nav-link">
           <i class="ri-list-check-3"></i>
           <span> Response List </span>
         </a>

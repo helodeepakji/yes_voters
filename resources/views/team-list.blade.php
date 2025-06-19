@@ -78,18 +78,6 @@
                         <div
                             class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3 pe-0  ps-0">
                             <h4 class="header-title">Team List</h4>
-                            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
-                                @if (auth()->user()->authorizedPages->contains('slug', 'create-team') || auth()->user()->role_id == 1)
-                                    <div class="dropdown ms-2">
-                                        <select id="selectedTeam" class="form-select">
-                                            <option value="">Select Team</option>
-                                            @foreach ($team as $item)
-                                                <option value="{{$item->id}}">{{$item->team_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                @endif
-                            </div>
                         </div>
 
 

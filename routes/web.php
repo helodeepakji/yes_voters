@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SurveysController;
+use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\RolewaiseAuthController;
 
 
@@ -27,6 +29,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/role-list', [RoleController::class, 'saveRole']);
     Route::post('/role-edit', [RoleController::class, 'editRole']);
     Route::get('/delete-role/{id}', [RoleController::class, 'deleteRole']);
+    
+    // surveys
+    Route::get('/surveys-list', [SurveysController::class, 'index']);
+    Route::post('/surveys-list', [SurveysController::class, 'saveSurveys']);
+    Route::post('/surveys-edit', [SurveysController::class, 'editSurveys']);
+    Route::get('/delete-survey/{id}', [SurveysController::class, 'deleteSurveys']);
+    
+    // surveys qustion
+    Route::get('/survey-question/{id?}', [SurveyQuestionController::class, 'index']);
+    Route::post('/add-question', [SurveyQuestionController::class, 'addSurveyQuestion']);
+    Route::post('/edit-question', [SurveyQuestionController::class, 'editSurveyQuestion']);
+    Route::get('/delete-question/{id}', [SurveyQuestionController::class, 'deleteSurveyQuestion']);
 
     // team
     Route::get('/team-list', [TeamController::class, 'index']);
