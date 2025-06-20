@@ -25,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
         return view('index');
     })->name('index');
     
+    Route::get('/', function () {
+        return view('index');
+    })->name('home');
+    
     Route::get('/analytics', function () {
         return view('analytics');
     })->name('analytics');
