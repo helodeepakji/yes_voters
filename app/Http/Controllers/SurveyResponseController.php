@@ -4,10 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Answer;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Survey;
 use App\Models\SurveyResponse;
 
 class SurveyResponseController extends Controller
 {
+    public function userResponse($id = null)
+    {
+        $users = User::all();
+
+        if ($id) {
+            $response = SurveyResponse::where('user_id', $id)->with('survey')->limit(100)->get();
+        } else {
+            $response = SurveyResponse::with('survey')->limit(100)->get();
+        }
+
+        return view('user-response', compact('response', 'users'));
+    }
+
+    public function surveyResponse($id = null)
+    {
+        $surveys = Survey::all();
+
+        if ($id) {
+            $response = SurveyResponse::where('id', $id)->with('survey')->limit(100)->get();
+        } else {
+            $response = SurveyResponse::with('survey')->limit(100)->get();
+        }
+
+        return view('survey-response', compact('response', 'surveys'));
+    }
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([

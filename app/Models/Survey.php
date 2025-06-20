@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Survey extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description' ,'is_active'];
+    protected $fillable = ['title', 'description', 'is_active'];
 
     public function questions()
     {
@@ -18,5 +18,10 @@ class Survey extends Model
     public function responses()
     {
         return $this->hasMany(SurveyResponse::class);
+    }
+
+    public function assignedUsers()
+    {
+        return $this->hasMany(Assign::class);
     }
 }

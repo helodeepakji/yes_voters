@@ -7,8 +7,10 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SurveysController;
-use App\Http\Controllers\SurveyQuestionController;
+use App\Http\Controllers\AssignSurveyController;
 use App\Http\Controllers\RolewaiseAuthController;
+use App\Http\Controllers\SurveyResponseController;
+use App\Http\Controllers\SurveyQuestionController;
 
 
 
@@ -36,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     
     // surveys
     Route::get('/surveys-list', [SurveysController::class, 'index']);
+    Route::get('/surveys-list/assigned-user/{id}', [AssignSurveyController::class, 'index']);
+    Route::get('/delete-user-assign/{id}/survey/{survey_id}', [AssignSurveyController::class, 'deleteAssign']);
     Route::post('/surveys-list', [SurveysController::class, 'saveSurveys']);
     Route::post('/surveys-edit', [SurveysController::class, 'editSurveys']);
     Route::get('/delete-survey/{id}', [SurveysController::class, 'deleteSurveys']);
@@ -44,7 +48,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/survey-question/{id?}', [SurveyQuestionController::class, 'index']);
     Route::post('/add-question', [SurveyQuestionController::class, 'addSurveyQuestion']);
     Route::post('/edit-question', [SurveyQuestionController::class, 'editSurveyQuestion']);
-    Route::get('/delete-question/{id}', [SurveyQuestionController::class, 'deleteSurveyQuestion']);
+    Route::get('/delete-question/{id}', [SurveyQuestionController::class,'deleteSurveyQuestion']);    
+    
+    // surveys response
+    Route::get('/user-response/{id?}', [SurveyResponseController::class, 'userResponse']);
+    Route::get('/survey-response/{id?}', [SurveyResponseController::class, 'surveyResponse']);
+    
+    // assign survey
+    Route::post('/assign-user', [AssignSurveyController::class, 'assignUser']);
+    Route::post('/assign-team', [AssignSurveyController::class, 'assignTeam']);
 
     // team
     Route::get('/team-list', [TeamController::class, 'index']);

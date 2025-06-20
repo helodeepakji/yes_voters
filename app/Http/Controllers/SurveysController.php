@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Survey;
+use App\Models\User;
+use App\Models\Team;
 
 class SurveysController extends Controller
 {
     public function index()
     {
-        $surveys = Survey::withCount(['responses', 'questions'])->get();
-        return view('survey-list', compact('surveys'));
+        $users = User::all();
+        $team = Team::all();
+        $surveys = Survey::withCount(['responses', 'questions','assignedUsers'])->get();
+        return view('survey-list', compact('surveys','team','users'));
     }
 
     public function saveSurveys(Request $request)

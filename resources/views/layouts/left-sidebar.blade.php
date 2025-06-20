@@ -129,10 +129,10 @@
         <div class="collapse" id="sidebarTasks">
           <ul class="side-nav-second-level">
             <li>
-              <a href="apps-tasks.php">User Wise</a>
+              <a href="/user-response">User Wise</a>
             </li>
             <li>
-              <a href="apps-tasks-details.php">Surveys Wise</a>
+              <a href="/survey-response">Surveys Wise</a>
             </li>
           </ul>
         </div>

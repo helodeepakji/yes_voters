@@ -116,47 +116,59 @@
                                 }
                             @endphp
                             <tbody id="table_body">
-                                @if ($question && $question->questions && $question->questions->count())
-                                    @php $i = 0; @endphp
-                                    @foreach ($question->questions as $item)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            <td>{{ $item->question }}</td>
-                                            <td>{{ ucfirst($item->type) }}</td>
-                                            <td>{{ $item->options}}</td>
-                                            <td>
-                                                <span
-                                                    class="badge badge-{{ $status == 0 ? 'danger' : 'success' }} d-inline-flex align-items-center badge-xs">
-                                                    <i
-                                                        class="ti ti-point-filled me-1"></i>{{ $status == 0 ? 'Inactive' : 'Active' }}
-                                                </span>
-                                            </td>
-                                            @if (auth()->user()->authorizedPages->contains('slug', 'survey-question-action') || auth()->user()->role_id == 1)
+                                @if ($question)
+
+                                    @if ($question->questions && $question->questions->count())
+
+                                        @php $i = 0; @endphp
+                                        @foreach ($question->questions as $item)
+                                            <tr>
+                                                <td>{{ ++$i }}</td>
+                                                <td>{{ $item->question }}</td>
+                                                <td>{{ ucfirst($item->type) }}</td>
+                                                <td>{{ $item->options}}</td>
                                                 <td>
-                                                    <a href="#edit_question" data-bs-toggle="modal" data-bs-target="#edit_question"
-                                                        onclick="getSurveyQestion({{ $item->id }})">
-                                                        <i class="ri-pencil-fill cursor-pointer"></i>
-                                                    </a>
-
-                                                    <a href="#add_question" data-bs-toggle="modal" data-bs-target="#add_question"
-                                                        onclick="addSurveyQestion({{$question->id}})">
-                                                        <i class="ms-2 ri-question-line cursor-pointer"></i> </a>
-
-                                                    <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal"
-                                                        onclick="getDeleteSurveyQestion({{ $item->id }})">
-                                                        <i class="ms-2 ri-delete-bin-line cursor-pointer"></i>
-                                                    </a>
+                                                    <span
+                                                        class="badge badge-{{ $status == 0 ? 'danger' : 'success' }} d-inline-flex align-items-center badge-xs">
+                                                        <i
+                                                            class="ti ti-point-filled me-1"></i>{{ $status == 0 ? 'Inactive' : 'Active' }}
+                                                    </span>
                                                 </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
+                                                @if (auth()->user()->authorizedPages->contains('slug', 'survey-question-action') || auth()->user()->role_id == 1)
+                                                    <td>
+                                                        <a href="#edit_question" data-bs-toggle="modal" data-bs-target="#edit_question"
+                                                            onclick="getSurveyQestion({{ $item->id }})">
+                                                            <i class="ri-pencil-fill cursor-pointer"></i>
+                                                        </a>
+
+                                                        <a href="#add_question" data-bs-toggle="modal" data-bs-target="#add_question"
+                                                            onclick="addSurveyQestion({{$question->id}})">
+                                                            <i class="ms-2 ri-question-line cursor-pointer"></i> </a>
+
+                                                        <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal"
+                                                            onclick="getDeleteSurveyQestion({{ $item->id }})">
+                                                            <i class="ms-2 ri-delete-bin-line cursor-pointer"></i>
+                                                        </a>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+
+                                    @else
+
+                                    <tr>
+                                        <td colspan="7" class="text-center text-danger">There is no Questions.</td>
+                                    </tr>
+
+                                    @endif
+
+
                                 @else
                                     <tr>
                                         <td colspan="7" class="text-center text-danger">Please select a survey.</td>
                                     </tr>
                                 @endif
                             </tbody>
-
                         </table>
 
                     </div> <!-- end card body-->
@@ -347,7 +359,7 @@
             optionsGroup.style.display = 'none';
             document.getElementById('options').value = '';
         }
-        
+
         const addoptionsGroup = document.getElementById('addoptionsGroup');
         if (type === 'radio' || type === 'checkbox' || type === 'select') {
             addoptionsGroup.style.display = 'block';
@@ -360,7 +372,7 @@
     function getDeleteSurveyQestion(id) {
         $('#btn-survey-id').data('survey-id', id);
     }
-    
+
     function addSurveyQestion(id) {
         $('#survey_id').val(id);
     }

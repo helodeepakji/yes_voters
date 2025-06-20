@@ -52,37 +52,30 @@
 
         <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3 mt-3">
             <div class="my-auto mb-2">
-                <h2 class="mb-1">Surveys List</h2>
+                <h2 class="mb-1">Surveys Response</h2>
                 <nav>
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item">
                             <a href="admin-dashboard.php"><i class="ti ti-smart-home"></i></a>
                         </li>
                         <li class="breadcrumb-item">
-                            Surveys
+                            Report
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Surveys List</li>
+                        <li class="breadcrumb-item active" aria-current="page">Surveys Response</li>
                     </ol>
                 </nav>
             </div>
             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                <div class="mb-2 ms-2">
-                    <a href="#" onclick="assignSurvey()" data-bs-toggle="modal" data-bs-target="#assign_user"
-                        class="btn btn-primary d-flex align-items-center"><i class="ri-user-line mx-1"></i>Assign
-                        User</a>
-                </div>
-                <div class="mb-2 ms-2">
-                    <a href="#" onclick="assignSurvey()" data-bs-toggle="modal" data-bs-target="#assign_team"
-                        class="btn btn-primary d-flex align-items-center"><i class="ri-team-line mx-1"></i>Assign
-                        Team</a>
-                </div>
-                @if (auth()->user()->authorizedPages->contains('slug', 'create-survey') || auth()->user()->role_id == 1)
-                    <div class="mb-2 ms-2">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#add_survey"
-                            class="btn btn-primary d-flex align-items-center"><i class="ri-add-circle-line mx-1"></i>Add
-                            Survey</a>
+                <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                    <div class="dropdown ms-2">
+                        <select id="selectedSurvey" class="form-select">
+                            <option value="">Select User</option>
+                            @foreach ($users as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
-                @endif
+                </div>
             </div>
         </div>
 
@@ -91,7 +84,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h4 class="header-title">Surveys List</h4>
+                        <h4 class="header-title">Surveys Response</h4>
 
                         <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                             <thead>
@@ -103,21 +96,17 @@
                                     </th>
                                     <th>Sno.</th>
                                     <th>Survey Name</th>
-                                    <th>Description</th>
-                                    <th>Total Members</th>
-                                    <th>Total Question</th>
+                                    <th>Staff Name</th>
+                                    <th>Surveyer Name</th>
                                     <th>Total Response</th>
                                     <th>Status</th>
-                                    @if (auth()->user()->authorizedPages->contains('slug', 'survey-action') || auth()->user()->role_id == 1)
-                                        <th></th>
-                                    @endif
                                 </tr>
                             </thead>
                             @php
                                 $i = 0;
                             @endphp
                             <tbody id="table_body">
-                                @foreach ($surveys as $item)
+                                @foreach ($response as $item)
                                     <tr>
                                         <td>
                                             <div class="form-check form-check-md">
@@ -131,12 +120,7 @@
                                         </td>
                                         <td>{{$item->description }}</td>
                                         <td>
-                                            <a href="/surveys-list/assigned-user/{{$item->id}}" target="_blank">
-                                                {{$item->assigned_users_count  }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="/survey-question/{{$item->id}}" target="_blank">
+                                            <a href="survey-question/{{$item->id}}" target="_blank">
                                                 {{$item->questions_count }}
                                             </a>
                                         </td>
@@ -148,29 +132,6 @@
                                                     class="ti ti-point-filled me-1"></i>{{ $item->is_active == 0 ? 'Inactive' : 'Active'}}
                                             </span>
                                         </td>
-                                        @if (auth()->user()->authorizedPages->contains('slug', 'survey-action') || auth()->user()->role_id == 1)
-
-                                            <td>
-
-                                                <a href="#edit_role" data-bs-toggle="modal" data-bs-target="#edit_role"
-                                                    onclick="getSurvey({{$item->id}})">
-                                                    <i class="ri-pencil-fill cursor-pointer"></i> </a>
-
-                                                @if (auth()->user()->authorizedPages->contains('slug', 'survey-question') || auth()->user()->role_id == 1)
-
-                                                    <a href="#add_question" data-bs-toggle="modal" data-bs-target="#add_question"
-                                                        onclick="getSurvey({{$item->id}})">
-                                                        <i class="ms-2 ri-question-line cursor-pointer"></i> </a>
-
-                                                @endif
-
-                                                <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal"
-                                                    onclick="getDeleteSurvey({{$item->id}})">
-                                                    <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"></i>
-                                                </a>
-                                            </td>
-                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -346,82 +307,6 @@
 </div>
 <!-- /Add Question -->
 
-<!-- Add Question -->
-<div class="modal fade" id="assign_user">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Assign User</h4>
-                <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="ti ti-x"></i>
-                </button>
-            </div>
-            <form action="/assign-user" method="post">
-                @csrf
-                <input type="hidden" id="user_survey_id" name="survey_id" required>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="mb-12">
-                                <label class="form-label">User</label>
-                                <select class="form-control" name="user_id[]" id="assign_user_id" multiple required>
-                                    <option value="">Select User</option>
-                                    @foreach ($users as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Assign</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- /Add Question -->
-
-<!-- Add Question -->
-<div class="modal fade" id="assign_team">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Assign Team</h4>
-                <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="ti ti-x"></i>
-                </button>
-            </div>
-            <form action="/assign-team" method="post">
-                @csrf
-                <input type="hidden" id="team_survey_id" name="survey_id" required>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="mb-12">
-                                <label class="form-label">Team</label>
-                                <select class="form-control" name="team_id" required>
-                                    <option value="">Select Team</option>
-                                    @foreach ($team as $item)
-                                        <option value="{{$item->id}}">{{$item->team_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Assign</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- /Add Question -->
-
 
 <!-- Delete Modal -->
 <div class="modal fade" id="delete_modal">
@@ -486,6 +371,7 @@
         $('#btn-survey-id').data('survey-id', id);
     }
 
+
     function getSurvey(id) {
         $.ajax({
             url: '/api/getSurvey/' + id,
@@ -504,28 +390,6 @@
     function getDelete() {
         var id = $('#btn-survey-id').data('survey-id');
         window.location.href = '/delete-survey/' + id;
-    }
-
-    $('#assign_user').on('shown.bs.modal', function () {
-        $('#assign_user_id').select2({
-            dropdownParent: $('#assign_user'),
-            placeholder: 'Select User',
-            width: '100%'
-        });
-    });
-
-    function assignSurvey(){
-        var survey = selectedSurvey();
-        if(survey.length == 0){
-            notyf.error('Select Survey First');
-            setTimeout(() => {
-                $('#assign_users').modal('hide');
-                $('#assign_team').modal('hide');
-            }, 200);
-        }
-
-        $('#user_survey_id').val(survey);
-        $('#team_survey_id').val(survey);
     }
 
 </script>
