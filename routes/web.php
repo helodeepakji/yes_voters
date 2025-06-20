@@ -22,6 +22,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('index');
     })->name('index');
+    
+    Route::get('/response-list', function () {
+        return view('response');
+    });
 
 
     // role

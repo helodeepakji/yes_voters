@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class SurveyResponse extends Model
 {
     use HasFactory;
-    protected $fillable = ['survey_id', 'user_id', 'audio_file', 'verification','verified_by'];
+    protected $fillable = ['name','father_name','location','survey_id', 'user_id', 'audio_file', 'verification','verified_by','address','block','city','state','pincode'];
 
     public function survey()
     {

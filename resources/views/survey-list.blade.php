@@ -86,6 +86,11 @@
                         <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
+                                    <th class="no-sort">
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox" id="select-all">
+                                        </div>
+                                    </th>
                                     <th>Sno.</th>
                                     <th>Survey Name</th>
                                     <th>Description</th>
@@ -103,6 +108,11 @@
                             <tbody id="table_body">
                                 @foreach ($surveys as $item)
                                     <tr>
+                                        <td>
+                                            <div class="form-check form-check-md">
+                                                <input class="form-check-input task-checkbox" type="checkbox" value="{{$item->id}}">
+                                            </div>
+                                        </td>
                                         <td>{{++$i}}</td>
                                         <td>
                                             {{$item->title}}
@@ -129,14 +139,14 @@
                                                     onclick="getSurvey({{$item->id}})">
                                                     <i class="ri-pencil-fill cursor-pointer"></i> </a>
 
-                                            @if (auth()->user()->authorizedPages->contains('slug', 'survey-question') || auth()->user()->role_id == 1)
+                                                @if (auth()->user()->authorizedPages->contains('slug', 'survey-question') || auth()->user()->role_id == 1)
 
-                                                <a href="#add_question" data-bs-toggle="modal" data-bs-target="#add_question"
-                                                    onclick="getSurvey({{$item->id}})">
-                                                    <i class="ms-2 ri-question-line cursor-pointer"></i> </a>
+                                                    <a href="#add_question" data-bs-toggle="modal" data-bs-target="#add_question"
+                                                        onclick="getSurvey({{$item->id}})">
+                                                        <i class="ms-2 ri-question-line cursor-pointer"></i> </a>
 
-                                            @endif
-                                            
+                                                @endif
+
                                                 <a href="#delete_modal" data-bs-toggle="modal" data-bs-target="#delete_modal"
                                                     onclick="getDeleteSurvey({{$item->id}})">
                                                     <i class="ms-2 ri-delete-bin-line cursor-pointer" data-bs-toggle="modal"

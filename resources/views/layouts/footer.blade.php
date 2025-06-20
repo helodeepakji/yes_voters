@@ -22,5 +22,16 @@
 <script src="{{ asset('assets/js/app.min.js')}}"></script>
 <script src="{{ asset('assets/js/notify.js')}}"></script>
 <script>
-     var notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+    var notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+    $('#select-all').on('change', function () {
+        let isChecked = $(this).prop('checked');
+        $('.task-checkbox').prop('checked', isChecked);
+    });
+    function selectedSurvey() {
+        let array = [];
+        $('.task-checkbox:checked').each(function () {
+            array.push($(this).val());
+        });
+        return array;
+    }
 </script>
