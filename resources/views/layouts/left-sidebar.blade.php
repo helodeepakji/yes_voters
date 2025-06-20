@@ -54,10 +54,10 @@
         <div class="collapse" id="sidebarDashboards">
           <ul class="side-nav-second-level">
             <li>
-              <a href="dashboard-analytics.php">Analytics</a>
+              <a href="/analytics">Analytics</a>
             </li>
             <li>
-              <a href="index.php">Ecommerce</a>
+              <a href="/dashboard">Dashboard</a>
             </li>
           </ul>
         </div>

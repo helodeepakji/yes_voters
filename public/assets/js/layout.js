@@ -1,5 +1,5 @@
 /**
-* Theme: Attex - Responsive Bootstrap 5 Admin Dashboard
+* Theme: Yes Voters- Responsive Bootstrap 5 Admin Dashboard
 * Author: Coderthemes
 * Module/App: Layout Js
 */

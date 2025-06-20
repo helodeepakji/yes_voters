@@ -20,10 +20,15 @@ Route::get('/logout',  [LoginController::class, 'logout']);
 
 
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/', function () {
+    
+    Route::get('/dashboard', function () {
         return view('index');
     })->name('index');
+    
+    Route::get('/analytics', function () {
+        return view('analytics');
+    })->name('analytics');
+
     
     Route::get('/response-list', function () {
         return view('response');
